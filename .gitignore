@@ -1,0 +1,13 @@
+.idea
+/target/**/*
+/logs/**/*
+*.iml
+**/*/pid
+**/*/idl/gen-java
+*.log
+*.DS_Store
+logs
+pid
+system.conf
+jar
+exportdata.txt
