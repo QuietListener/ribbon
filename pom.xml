@@ -15,15 +15,8 @@
         <dependency>
             <groupId>com.netflix.archaius</groupId>
             <artifactId>archaius-core</artifactId>
-            <version>0.4.1</version>
+            <version>0.5.3</version>
         </dependency>
-
-        <dependency>
-            <groupId>com.netflix.hystrix</groupId>
-            <artifactId>hystrix-core</artifactId>
-            <version>1.5.18</version>
-        </dependency>
-
 
         <!-- https://mvnrepository.com/artifact/com.netflix.ribbon/ribbon -->
         <dependency>

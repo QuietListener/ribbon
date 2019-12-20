@@ -15,26 +15,34 @@ public class RibboTest1 {
 
     @Test
     public void test1() throws Exception {
+
+        String keyServers = "sample-client.ribbon.listOfServers";
         ConfigurationManager.loadPropertiesFromResources("p1.properties");  // 1
-        System.out.println(ConfigurationManager.getConfigInstance().getProperty("sample-client.ribbon.listOfServers"));
-        RestClient client = (RestClient) ClientFactory.getNamedClient("sample-client");//getNamedClient("sample-client");  // 2
+        System.out.println(ConfigurationManager.getConfigInstance().getProperty(keyServers));
+        RestClient client = (RestClient) ClientFactory.getNamedClient("sample-client"); // 2
         HttpRequest request = HttpRequest.newBuilder().uri(new URI("/")).build(); // 3
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 6; i++) {
             HttpResponse response = client.executeWithLoadBalancer(request); // 4
-            System.out.println("Status code for " + response.getRequestedURI() + "  :" + response.getStatus());
+            System.out.println(i + ": Status code for " + response.getRequestedURI() + "  :" + response.getStatus());
         }
-        @SuppressWarnings("rawtypes")
+
         ZoneAwareLoadBalancer lb = (ZoneAwareLoadBalancer) client.getLoadBalancer();
         System.out.println(lb.getLoadBalancerStats());
+
+
         ConfigurationManager.getConfigInstance().setProperty(
-                "sample-client.ribbon.listOfServers", "www.linkedin.com:80,www.google.com:80"); // 5
+                keyServers, "www.linkedin.com:80,www.microsoft.com:80,www.abc.com:80"); // 5
+        System.out.println(ConfigurationManager.getConfigInstance().getProperty(keyServers));
+
         System.out.println("changing servers ...");
+
         Thread.sleep(3000); // 6
-        for (int i = 0; i < 20; i++) {
+
+        for (int i = 0; i < 6; i++) {
             HttpResponse response = null;
             try {
                 response = client.executeWithLoadBalancer(request);
-                System.out.println("Status code for " + response.getRequestedURI() + "  : " + response.getStatus());
+                System.out.println(i + ": Status code for " + response.getRequestedURI() + "  :" + response.getStatus());
             } finally {
                 if (response != null) {
                     response.close();
